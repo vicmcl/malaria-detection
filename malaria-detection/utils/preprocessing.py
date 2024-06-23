@@ -5,14 +5,6 @@ import numpy as np
 import os
 
 
-if not os.path.exists("data") or not os.path.exists("data/cell_images"):
-    raise Exception("Data not found. Please run get_dataset.py first.")
-
-DATA_PATH = Path('data/cell_images')
-uninfected_path = DATA_PATH / "Uninfected"
-parasitized_path = DATA_PATH / "Parasitized"
-
-
 def resize_images(filepath, size = (64, 64)):
     img = Image.open(filepath).resize(size)
     return img
@@ -30,7 +22,13 @@ def add_images(path, label, x, y):
     return x, y
 
 
-def preprocess_data():
+def preprocess_data(data_path):
+    
+    if type(data_path) == str:
+        data_path = Path(data_path)
+
+    uninfected_path = data_path / "Uninfected"
+    parasitized_path = data_path / "Parasitized"
 
     x, y = [], []
     x, y = add_images(uninfected_path, 0, x, y)
