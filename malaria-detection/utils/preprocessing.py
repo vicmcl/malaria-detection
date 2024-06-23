@@ -2,9 +2,13 @@ from pathlib import Path
 from PIL import Image
 from sklearn.model_selection import train_test_split
 import numpy as np
+import os
 
-ROOT = Path('../../')
-DATA_PATH = ROOT / 'data' / 'cell_images'
+
+if not os.path.exists("data") or not os.path.exists("data/cell_images"):
+    raise Exception("Data not found. Please run get_dataset.py first.")
+
+DATA_PATH = Path('data/cell_images')
 uninfected_path = DATA_PATH / "Uninfected"
 parasitized_path = DATA_PATH / "Parasitized"
 
