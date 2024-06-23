@@ -8,7 +8,7 @@ def main():
 
     # Define constants
     DATASET = "iarunava/cell-images-for-detecting-malaria"
-    DATA_PATH = Path('../data/')
+    DATA_PATH = Path('data/')
 
     # Initialize Kaggle API
     api = KaggleApi()
