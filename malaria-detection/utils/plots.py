@@ -17,8 +17,27 @@ def plot_images(images, labels, n):
         plt.imshow(images[random_index[i]])
         ax.set_xlabel(label)
 
-    fig.tight_layout()
+    plt.tight_layout()
+    plt.grid(False)
     plt.show()
+
+
+def plot_training(hist):
+    fig = plt.figure(figsize=(10, 5))
+
+    for i, key in enumerate(hist.history.keys()):
+        fig.add_subplot(1, 2, i + 1)
+        plt.plot(range(1, len(hist.epoch) + 1), hist.history[key])
+        plt.ylabel(key)
+        plt.xlabel('Epoch')
+
+        # Axis parameters
+        plt.ylim(0, 1)
+        plt.ylabel('Loss')
+        plt.xlabel('Epoch')
+        plt.legend(['Training', 'Validation'])
+        plt.tight_layout()
+        plt.show()
 
 
 def settings():
