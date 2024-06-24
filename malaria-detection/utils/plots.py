@@ -22,22 +22,34 @@ def plot_images(images, labels, n):
     plt.show()
 
 
-def plot_training(hist):
-    fig = plt.figure(figsize=(10, 5))
+def plot_training(histories, figsize=(10, 5)):
+    fig = plt.figure(figsize=figsize)
+    keys = ['loss', 'accuracy']
+    colors = sns.color_palette("husl", n_colors=len(histories))
 
-    for i, key in enumerate(hist.history.keys()):
-        fig.add_subplot(1, 2, i + 1)
-        plt.plot(range(1, len(hist.epoch) + 1), hist.history[key])
-        plt.ylabel(key)
-        plt.xlabel('Epoch')
+    for i, key in enumerate(keys):
+        fig.add_subplot(1, len(keys), i + 1)
 
-        # Axis parameters
-        plt.ylim(0, 1)
-        plt.ylabel('Loss')
-        plt.xlabel('Epoch')
-        plt.legend(['Training', 'Validation'])
-        plt.tight_layout()
-        plt.show()
+        for hist, color in zip(histories, colors):
+            plt.plot(
+                range(1, len(hist.epoch) + 1),
+                hist.history[key],
+                label=f'Training {hist}',
+                color=color,
+                linestyle='--'
+            )
+            plt.plot(
+                range(1, len(hist.epoch) + 1),
+                hist.history['val_' + key],
+                label=f'Validation {hist}',
+                color=color
+            )
+
+            # Axis parameters
+            plt.xlabel('Epoch')
+            plt.legend()
+    plt.tight_layout()
+    plt.show()
 
 
 def settings():
