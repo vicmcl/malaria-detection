@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import random
 import seaborn as sns
+import numpy as np
 from matplotlib.colors import LinearSegmentedColormap, ListedColormap
 
 def plot_images(images, labels, n):
@@ -22,15 +23,28 @@ def plot_images(images, labels, n):
     plt.show()
 
 
+def set_custom_cmap():
+    cmap = LinearSegmentedColormap.from_list(
+        'custom_cmap', ['#4F32F1', '#34EF78', '#89939C'])
+    palette = ListedColormap(
+        ['#4F32F1', '#34EF78', '#FF2495', '#89939C'], 'custom_palette'
+    )
+    return cmap, palette
+
+
 def plot_training(histories, figsize=(10, 5)):
+    
     fig = plt.figure(figsize=figsize)
     keys = ['loss', 'accuracy']
-    colors = sns.color_palette("husl", n_colors=len(histories))
+
+    colors = set_custom_cmap()
+    sample_points = np.linspace(0, 1, len(histories))
+    sampled_colors = colors(sample_points)
 
     for i, key in enumerate(keys):
         fig.add_subplot(1, len(keys), i + 1)
 
-        for hist, color in zip(histories, colors):
+        for hist, color in zip(histories, sampled_colors):
             plt.plot(
                 range(1, len(histories[hist].epoch) + 1),
                 histories[hist].history[key],
@@ -52,17 +66,9 @@ def plot_training(histories, figsize=(10, 5)):
     plt.show()
 
 
-def settings():
+def set_plot_settings():
     plt.rcdefaults()
     sns.set_style('whitegrid')
-
-    colors = ['#FFFFFF', '#70f3a0', '#89939C', "#4C4C4C"]
-    
-    custom_palette = ListedColormap(colors)
-    plt.register_cmap(name='my_palette', cmap=custom_palette)
-
-    custom_cmap = LinearSegmentedColormap.from_list('custom', colors)
-    plt.register_cmap(name='my_cmap', cmap=custom_cmap)
 
     # Set custom figure parameters
     plt.rcParams.update({
@@ -92,13 +98,6 @@ def settings():
         'legend.edgecolor':     '#4C4C4C',   # legend parameters
         'legend.facecolor':     'white',
         'legend.fontsize':      12,
-        'legend.title_fontsize': 14,
-        'legend.title_color':   '#4C4C4C',
-        'legend.labelcolor':    '#4C4C4C',
 
         'axes.titlecolor':      '#4C4C4C',   # axis title color
-        'figure.titlesize':     22,          # figure title size
-        'figure.titleweight':   'bold',      # figure title weight
-        'figure.titlecolor':    '#4C4C4C',   # figure title color
-
     })
