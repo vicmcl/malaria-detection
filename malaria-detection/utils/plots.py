@@ -32,15 +32,15 @@ def plot_training(histories, figsize=(10, 5)):
 
         for hist, color in zip(histories, colors):
             plt.plot(
-                range(1, len(hist.epoch) + 1),
-                hist.history[key],
+                range(1, len(histories[hist].epoch) + 1),
+                histories[hist].history[key],
                 label=f'Training {hist}',
                 color=color,
                 linestyle='--'
             )
             plt.plot(
-                range(1, len(hist.epoch) + 1),
-                hist.history['val_' + key],
+                range(1, len(histories[hist].epoch) + 1),
+                histories[hist].history['val_' + key],
                 label=f'Validation {hist}',
                 color=color
             )
