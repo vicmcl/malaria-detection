@@ -37,14 +37,13 @@ def plot_training(histories, figsize=(10, 5)):
     fig = plt.figure(figsize=figsize)
     keys = ['loss', 'accuracy']
 
-    colors = set_custom_cmap()
-    sample_points = np.linspace(0, 1, len(histories))
-    sampled_colors = colors(sample_points)
+    _, palette = set_custom_cmap()
+    colors = palette.colors
 
     for i, key in enumerate(keys):
         fig.add_subplot(1, len(keys), i + 1)
 
-        for hist, color in zip(histories, sampled_colors):
+        for hist, color in zip(histories, colors):
             plt.plot(
                 range(1, len(histories[hist].epoch) + 1),
                 histories[hist].history[key],
@@ -89,15 +88,17 @@ def set_plot_settings():
         'grid.linewidth':       0.5,         # grid parameter
 
         'xtick.color':          "#89939C",   # ticks parameters
-        'xtick.labelcolor':     "#89939C",  
+        'xtick.labelcolor':     "#4C4C4C",  
         'xtick.major.width':    1,
         'ytick.color':          "#89939C",
-        'ytick.labelcolor':     "#89939C",
+        'ytick.labelcolor':     "#4C4C4C",
         'ytick.major.width':    1,
 
-        'legend.edgecolor':     '#4C4C4C',   # legend parameters
-        'legend.facecolor':     'white',
-        'legend.fontsize':      12,
+        'legend.facecolor':     'white',     # legend parameters
+        'legend.frameon':        True,
+        'legend.edgecolor':     'white',
+        'legend.framealpha':     1,
+        'legend.labelcolor':      '#4C4C4C',
 
         'axes.titlecolor':      '#4C4C4C',   # axis title color
     })
